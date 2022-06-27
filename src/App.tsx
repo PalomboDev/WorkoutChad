@@ -15,6 +15,7 @@ import { home, barbell, person } from 'ionicons/icons';
 import Home from './pages/home';
 import Workouts from './pages/workouts';
 import Profile from './pages/profile';
+import Login from "./pages/auth/login";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -42,25 +43,6 @@ import { PostgrestResponse } from "@supabase/supabase-js";
 setupIonicReact();
 
 export default function App(): JSX.Element {
-    const [text, setText] = useState<string>('No text');
-
-    useEffect(() => {
-        supabase
-            .from('fuck')
-            .select(`*`)
-            .then((response: PostgrestResponse<any>) => {
-                const data: any = response.data;
-                const error: any = response.error;
-
-                if (error) {
-                    console.error(error);
-                    return;
-                }
-
-                console.log(data);
-            });
-    }, []);
-
     return (
         <IonApp>
             <IonReactRouter>
@@ -77,6 +59,11 @@ export default function App(): JSX.Element {
                         </Route>
                         <Route exact path="/">
                             <Redirect to="/home" />
+                        </Route>
+
+                        {/*Auth*/}
+                        <Route exact path="/auth/login">
+                            <Login />
                         </Route>
                     </IonRouterOutlet>
                     <IonTabBar slot="bottom">
