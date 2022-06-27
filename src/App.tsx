@@ -1,21 +1,22 @@
 import { Redirect, Route } from 'react-router-dom';
 import * as React from 'react';
 import {
-    IonApp,
-    IonIcon,
-    IonLabel,
-    IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonTabs,
-    setupIonicReact,
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, barbell, person } from 'ionicons/icons';
 import Home from './pages/home';
 import Workouts from './pages/workouts';
 import Profile from './pages/profile';
-import Login from "./pages/auth/login";
+import Login from './pages/auth/login';
+import Register from './pages/auth/register';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,50 +39,53 @@ import './theme/variables.css';
 
 import { supabase } from './utils/supabaseClient';
 import { useEffect, useState } from 'react';
-import { PostgrestResponse } from "@supabase/supabase-js";
+import { PostgrestResponse } from '@supabase/supabase-js';
 
 setupIonicReact();
 
 export default function App(): JSX.Element {
-    return (
-        <IonApp>
-            <IonReactRouter>
-                <IonTabs>
-                    <IonRouterOutlet>
-                        <Route exact path="/home">
-                            <Home />
-                        </Route>
-                        <Route exact path="/workouts">
-                            <Workouts />
-                        </Route>
-                        <Route path="/profile">
-                            <Profile />
-                        </Route>
-                        <Route exact path="/">
-                            <Redirect to="/home" />
-                        </Route>
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/workouts">
+              <Workouts />
+            </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
 
-                        {/*Auth*/}
-                        <Route exact path="/auth/login">
-                            <Login />
-                        </Route>
-                    </IonRouterOutlet>
-                    <IonTabBar slot="bottom">
-                        <IonTabButton tab="home" href="/home">
-                            <IonIcon icon={home} />
-                            <IonLabel>Home</IonLabel>
-                        </IonTabButton>
-                        <IonTabButton tab="workouts" href="/workouts">
-                            <IonIcon icon={barbell} />
-                            <IonLabel>Workouts</IonLabel>
-                        </IonTabButton>
-                        <IonTabButton tab="profile" href="/profile">
-                            <IonIcon icon={person} />
-                            <IonLabel>Profile</IonLabel>
-                        </IonTabButton>
-                    </IonTabBar>
-                </IonTabs>
-            </IonReactRouter>
-        </IonApp>
-    );
+            {/*Auth*/}
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/register">
+              <Register />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="home" href="/home">
+              <IonIcon icon={home} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="workouts" href="/workouts">
+              <IonIcon icon={barbell} />
+              <IonLabel>Workouts</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="profile" href="/profile">
+              <IonIcon icon={person} />
+              <IonLabel>Profile</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
 }
