@@ -37,6 +37,7 @@ import './theme/variables.css';
 
 import { supabase } from './utils/supabaseClient';
 import { useEffect, useState } from 'react';
+import {PostgrestResponse} from "@supabase/supabase-js";
 
 setupIonicReact();
 
@@ -44,20 +45,22 @@ export default function App({}): JSX.Element {
     const [text, setText] = useState<string>('No text');
 
     useEffect(() => {
-        async function setTextAsync() {
-            const { data, error } = await supabase.from('fuck').select(`*`);
+        supabase
+            .from('fuck')
+            .select(`*`)
+            .then((response: PostgrestResponse<any>) => {
+                const data: any = response.data;
+                const error: any = response.error;
 
-            if (error) {
-                console.error(error);
-                return;
-            }
+                if (error) {
+                    console.error(error);
+                    return;
+                }
 
-            const fuck: any = data[0];
+                const fuck: any = data[0];
 
-            setText(fuck['text']);
-        }
-
-        setTextAsync();
+                setText(fuck['text']);
+            });
     }, []);
 
     return (
