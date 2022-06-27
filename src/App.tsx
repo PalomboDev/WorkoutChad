@@ -11,7 +11,7 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { homeOutline, barbellOutline, personOutline } from 'ionicons/icons';
+import { home, barbell, person } from 'ionicons/icons';
 import Home from './pages/home';
 import Workouts from './pages/workouts';
 import Profile from './pages/profile';
@@ -57,15 +57,15 @@ const App: React.FC = () => (
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="home" href="/home">
-            <IonIcon icon={homeOutline} />
+            <IonIcon icon={home} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="worksouts" href="/worksouts">
-            <IonIcon icon={barbellOutline} />
+          <IonTabButton tab="workouts" href="/workouts">
+            <IonIcon icon={barbell} />
             <IonLabel>Workouts</IonLabel>
           </IonTabButton>
           <IonTabButton tab="profile" href="/profile">
-            <IonIcon icon={personOutline} />
+            <IonIcon icon={person} />
             <IonLabel>Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
