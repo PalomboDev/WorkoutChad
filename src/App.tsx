@@ -37,11 +37,11 @@ import './theme/variables.css';
 
 import { supabase } from './utils/supabaseClient';
 import { useEffect, useState } from 'react';
-import {PostgrestResponse} from "@supabase/supabase-js";
+import { PostgrestResponse } from "@supabase/supabase-js";
 
 setupIonicReact();
 
-export default function App({}): JSX.Element {
+export default function App(): JSX.Element {
     const [text, setText] = useState<string>('No text');
 
     useEffect(() => {
@@ -57,9 +57,7 @@ export default function App({}): JSX.Element {
                     return;
                 }
 
-                const fuck: any = data[0];
-
-                setText(fuck['text']);
+                console.log(data);
             });
     }, []);
 
