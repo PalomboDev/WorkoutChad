@@ -1,0 +1,7 @@
+{
+  "name": "WorkoutChad",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
