@@ -1,14 +1,14 @@
 import { Redirect, Route } from 'react-router-dom';
-import * as React from "react";
+import * as React from 'react';
 import {
-    IonApp,
-    IonIcon,
-    IonLabel,
-    IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonTabs,
-    setupIonicReact
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, barbell, person } from 'ionicons/icons';
@@ -35,67 +35,65 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import { supabase } from "./utils/supabaseClient";
-import { useEffect, useState } from "react";
+import { supabase } from './utils/supabaseClient';
+import { useEffect, useState } from 'react';
 
 setupIonicReact();
 
-export default function App({  }): JSX.Element {
-    const [text, setText] = useState<string>("No text");
+export default function App({}): JSX.Element {
+  const [text, setText] = useState<string>('No text');
 
-    useEffect(() => {
-        async function setTextAsync() {
-            const { data, error } = await supabase
-                .from("fuck")
-                .select(`*`);
+  useEffect(() => {
+    async function setTextAsync() {
+      const { data, error } = await supabase.from('fuck').select(`*`);
 
-            if (error) {
-                console.error(error);
-                return;
-            }
+      if (error) {
+        console.error(error);
+        return;
+      }
 
-            const fuck: any = data[0];
+      const fuck: any = data[0];
 
-            setText(fuck["text"]);
-        }
+      setText(fuck['text']);
+    }
 
-        setTextAsync();
-    }, []);
+    setTextAsync();
+  }, []);
 
-    return (
-        <IonApp>
-            <IonReactRouter>
-                <IonTabs>
-                    <IonRouterOutlet>
-                        <Route exact path="/home">
-                            <h1>{text}</h1>
-                        </Route>
-                        <Route exact path="/workouts">
-                            <Workouts />
-                        </Route>
-                        <Route path="/profile">
-                            <Profile />
-                        </Route>
-                        <Route exact path="/">
-                            <Redirect to="/home" />
-                        </Route>
-                    </IonRouterOutlet>
-                    <IonTabBar slot="bottom">
-                        <IonTabButton tab="home" href="/home">
-                            <IonIcon icon={home} />
-                            <IonLabel>Home</IonLabel>
-                        </IonTabButton>
-                        <IonTabButton tab="workouts" href="/workouts">
-                            <IonIcon icon={barbell} />
-                            <IonLabel>Workouts</IonLabel>
-                        </IonTabButton>
-                        <IonTabButton tab="profile" href="/profile">
-                            <IonIcon icon={person} />
-                            <IonLabel>Profile</IonLabel>
-                        </IonTabButton>
-                    </IonTabBar>
-                </IonTabs>
-            </IonReactRouter>
-        </IonApp>
-    );
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/workouts">
+              <Workouts />
+            </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="home" href="/home">
+              <IonIcon icon={home} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="workouts" href="/workouts">
+              <IonIcon icon={barbell} />
+              <IonLabel>Workouts</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="profile" href="/profile">
+              <IonIcon icon={person} />
+              <IonLabel>Profile</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
 }
