@@ -63,10 +63,10 @@ export default function App(): JSX.Element {
             </Route>
 
             {/*Auth*/}
-            <Route exact path="/login">
+            <Route exact path="/auth/login">
               <Login />
             </Route>
-            <Route exact path="/register">
+            <Route exact path="/auth/register">
               <Register />
             </Route>
           </IonRouterOutlet>
