@@ -112,14 +112,14 @@ export default function App(): JSX.Element {
     }
 
     useEffect(() => {
-        // supabase.auth.signIn({
-        //     email: "colin.palombo@yahoo.com",
-        //     password: "password1"
-        // }).then(result => {
-        //     sessionSet(supabase.auth.session());
-        // })
+        supabase.auth.signIn({
+            email: "colin.palombo@yahoo.com",
+            password: "password1"
+        }).then(result => {
+            sessionSet(supabase.auth.session());
+        })
 
-        sessionSet(supabase.auth.session());
+        // sessionSet(supabase.auth.session());
 
         supabase.auth.onAuthStateChange((_event, session) => {
             sessionSet(session);
