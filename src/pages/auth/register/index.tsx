@@ -24,24 +24,23 @@ export default function Register({}): JSX.Element {
     <IonPage>
       <IonHeader className="header-content">
         <IonToolbar>
-          <IonTitle>Register</IonTitle>
+          <IonTitle></IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent className="register-content">
-        <IonCard className="welcome-card">
+        <IonCard className="welcome-card" color={'white'}>
           <IonCardHeader>
-            <IonCardTitle>Welcome to WorkoutChad</IonCardTitle>
+            <IonCardTitle>Welcome to Workout Chad</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             We will be your personal trainer, keeping you motivated when working
-            out. Remember pleabian, there is never an excuse not to get in a
-            pump.
+            out.
           </IonCardContent>
         </IonCard>
 
-        <IonCard className="register-card">
-          <IonItem>
+        <IonCard className="register-card" color={'white'}>
+          <IonItem color={'white'}>
             <IonIcon icon={personAdd} slot="start" />
             <IonLabel>Register User</IonLabel>
           </IonItem>
@@ -71,13 +70,18 @@ export default function Register({}): JSX.Element {
           </IonCardContent>
         </IonCard>
 
-        <IonButton color={'light'} expand="full" className="register-button">
-          <IonLabel>Register</IonLabel>
-          <IonIcon icon={checkmark} slot="end" />
-        </IonButton>
-        <IonButton color={'warning'} expand="full" className="login-button">
-          <IonLabel>Already have an account?</IonLabel>
-        </IonButton>
+        <div className="button-content">
+          <IonButton
+            color={'primary'}
+            expand="block"
+            className="register-button">
+            <IonLabel>Register</IonLabel>
+            <IonIcon icon={checkmark} slot="end" />
+          </IonButton>
+          <IonButton color={'warning'} expand="block" className="login-button">
+            <IonLabel>Already have an account?</IonLabel>
+          </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );

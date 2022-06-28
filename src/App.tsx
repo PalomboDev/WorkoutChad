@@ -1,14 +1,14 @@
 import { Redirect, Route } from 'react-router-dom';
 import * as React from 'react';
 import {
-    IonApp,
-    IonIcon,
-    IonLabel,
-    IonRouterOutlet,
-    IonTabBar,
-    IonTabButton,
-    IonTabs,
-    setupIonicReact,
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, barbell, person } from 'ionicons/icons';
@@ -37,147 +37,157 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import { User } from "./types";
-import {PostgrestResponse, Session} from "@supabase/supabase-js";
+import { User } from './types';
+import { PostgrestResponse, Session } from '@supabase/supabase-js';
 
 import { supabase } from './utils/supabaseClient';
 import { useEffect, useState } from 'react';
-import { UserContext } from "./utils/useUserContext";
+import { UserContext } from './utils/useUserContext';
 
 setupIonicReact();
 
 export default function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
-    const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
-    function sessionSet(session: Session | null) {
-        if (!session) {
-            window.localStorage.removeItem("dynamichomecare.user");
-            // TODO: Go to Login
-            return;
+  function sessionSet(session: Session | null) {
+    if (!session) {
+      window.localStorage.removeItem('dynamichomecare.user');
+      // TODO: Go to Login
+      return;
+    }
+
+    async function setUserAndSession() {
+      let user: User | undefined | null;
+      let fetchUserData: boolean = true;
+
+      if (session && session.user) {
+        const localUserString: string | null = window.localStorage.getItem(
+          'dynamichomecare.user'
+        );
+
+        if (localUserString !== null) {
+          user = JSON.parse(localUserString);
+
+          if (user) {
+            if (session.user.id !== user.id) {
+              window.localStorage.removeItem('dynamichomecare.user');
+              // supabase.auth.signOut(); TODO
+              return;
+            }
+
+            fetchUserData = false;
+          }
         }
 
-        async function setUserAndSession() {
-            let user: User | undefined | null
-            let fetchUserData: boolean = true;
-
-            if (session && session.user) {
-                const localUserString: string | null = window.localStorage.getItem("dynamichomecare.user");
-
-                if (localUserString !== null) {
-                    user = JSON.parse(localUserString);
-
-                    if (user) {
-                        if (session.user.id !== user.id) {
-                            window.localStorage.removeItem("dynamichomecare.user");
-                            // supabase.auth.signOut(); TODO
-                            return;
-                        }
-
-                        fetchUserData = false;
-                    }
-                }
-
-                if (fetchUserData) {
-                    const { data: userData, error: userError }: PostgrestResponse<any> = await supabase
-                        .from("user")
-                        .select(`
+        if (fetchUserData) {
+          const { data: userData, error: userError }: PostgrestResponse<any> =
+            await supabase
+              .from('user')
+              .select(
+                `
                         id,
                         slogan
-                    `)
-                        .eq("id", session.user.id);
+                    `
+              )
+              .eq('id', session.user.id);
 
-                    if (userError) {
-                        console.error(userError);
-                        return;
-                    }
+          if (userError) {
+            console.error(userError);
+            return;
+          }
 
-                    console.log(userData);
+          console.log(userData);
 
-                    if (userData && userData[0]) {
-                        user = await (userData[0] as User);
-                    }
-                }
-
-                if (user) {
-                    window.localStorage.setItem("dynamichomecare.user", JSON.stringify(user));
-
-                    setUser(user);
-                    setSession(session);
-                }
-            }
+          if (userData && userData[0]) {
+            user = await (userData[0] as User);
+          }
         }
 
-        setUserAndSession();
+        if (user) {
+          window.localStorage.setItem(
+            'dynamichomecare.user',
+            JSON.stringify(user)
+          );
+
+          setUser(user);
+          setSession(session);
+        }
+      }
     }
 
-    useEffect(() => {
-        supabase.auth.signIn({
-            email: "colin.palombo@yahoo.com",
-            password: "password1"
-        }).then(result => {
-            sessionSet(supabase.auth.session());
-        })
-        
-        supabase.auth.onAuthStateChange((_event, session) => {
-            sessionSet(session);
-        })
-    }, []);
+    setUserAndSession();
+  }
 
-    if (!user) {
-        return (
-            <IonApp>
-                <IonReactRouter>
-                    <Login />
-                </IonReactRouter>
-            </IonApp>
-        );
-    }
+  useEffect(() => {
+    supabase.auth
+      .signIn({
+        email: 'colin.palombo@yahoo.com',
+        password: 'password1',
+      })
+      .then((result) => {
+        sessionSet(supabase.auth.session());
+      });
 
+    supabase.auth.onAuthStateChange((_event, session) => {
+      sessionSet(session);
+    });
+  }, []);
+
+  if (!user) {
     return (
-        <UserContext.Provider value={{ user }}>
-            <IonApp>
-                <IonReactRouter>
-                    <IonTabs>
-                        <IonRouterOutlet>
-                            <Route exact path="/home">
-                                <Home />
-                            </Route>
-                            <Route exact path="/workouts">
-                                <Workouts />
-                            </Route>
-                            <Route path="/profile">
-                                <Profile />
-                            </Route>
-                            <Route exact path="/">
-                                <Redirect to="/home" />
-                            </Route>
-
-                            {/*Auth*/}
-                            <Route exact path="/auth/login">
-                                <Login />
-                            </Route>
-                        <Route exact path="/auth/register">
-              <Register />
-            </Route>
-          </IonRouterOutlet>
-                        <IonTabBar slot="bottom">
-                            <IonTabButton tab="home" href="/home">
-                                <IonIcon icon={home} />
-                                <IonLabel>Home</IonLabel>
-                            </IonTabButton>
-                            <IonTabButton tab="workouts" href="/workouts">
-                                <IonIcon icon={barbell} />
-                                <IonLabel>Workouts</IonLabel>
-                            </IonTabButton>
-                            <IonTabButton tab="profile" href="/profile">
-                                <IonIcon icon={person} />
-                                <IonLabel>Profile</IonLabel>
-                            </IonTabButton>
-                        </IonTabBar>
-                    </IonTabs>
-                </IonReactRouter>
-            </IonApp>
-        </UserContext.Provider>
+      <IonApp>
+        <IonReactRouter>
+          <Login />
+        </IonReactRouter>
+      </IonApp>
     );
+  }
+
+  return (
+    <UserContext.Provider value={{ user }}>
+      <IonApp>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/workouts">
+                <Workouts />
+              </Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
+
+              {/*Auth*/}
+              <Route exact path="/auth/login">
+                <Login />
+              </Route>
+              <Route exact path="/auth/register">
+                <Register />
+              </Route>
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="home" href="/home">
+                <IonIcon icon={home} />
+                <IonLabel>Home</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="workouts" href="/workouts">
+                <IonIcon icon={barbell} />
+                <IonLabel>Workouts</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="profile" href="/profile">
+                <IonIcon icon={person} />
+                <IonLabel>Profile</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+      </IonApp>
+    </UserContext.Provider>
+  );
 }
