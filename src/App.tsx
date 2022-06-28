@@ -15,7 +15,8 @@ import { home, barbell, person } from 'ionicons/icons';
 import Home from './pages/home';
 import Workouts from './pages/workouts';
 import Profile from './pages/profile';
-import Login from "./pages/auth/login";
+import Login from './pages/auth/login';
+import Register from './pages/auth/register';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,7 +47,7 @@ import { UserContext } from "./utils/useUserContext";
 setupIonicReact();
 
 export default function App(): JSX.Element {
-    const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
     const [session, setSession] = useState<Session | null>(null);
 
     function sessionSet(session: Session | null) {
@@ -151,7 +152,10 @@ export default function App(): JSX.Element {
                             <Route exact path="/auth/login">
                                 <Login />
                             </Route>
-                        </IonRouterOutlet>
+                        <Route exact path="/auth/register">
+              <Register />
+            </Route>
+          </IonRouterOutlet>
                         <IonTabBar slot="bottom">
                             <IonTabButton tab="home" href="/home">
                                 <IonIcon icon={home} />
