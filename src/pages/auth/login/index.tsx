@@ -1,6 +1,6 @@
 import "./index.css";
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 import {
     IonContent,
@@ -17,14 +17,26 @@ import {
     IonCardHeader,
     IonCardTitle,
     IonCardSubtitle,
-    IonCardContent
+    IonCardContent,
+    IonIcon,
+    IonButton,
+    IonToast
 } from "@ionic/react";
+import { checkmark } from "ionicons/icons";
+import { supabase } from "../../../utils/supabaseClient";
 
 export default function Login(): JSX.Element {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const [rememberMe, setRememberMe] = useState<boolean>(false);
+
+    const [showSuccessToast, setShowSuccessToast] = useState<boolean>(true);
+    const [showErrorToast, setShowErrorToast] = useState<boolean>(false);
+
+    function handleLogin(): void {
+
+    }
 
     return (
         <IonPage>
@@ -49,35 +61,51 @@ export default function Login(): JSX.Element {
 
                     <IonCardContent>
                         <IonItemGroup>
-                            <IonItem color={"primary"} style={{ marginBottom: "5px" }}>
+                            <IonItem color={"primary"} className={"input"}>
                                 <IonLabel>Email</IonLabel>
                                 <IonInput
                                     type={"email"}
                                     placeholder={"Enter email..."}
                                     value={email}
+                                    onIonChange={e => setEmail(e.detail.value!)}
                                 />
                             </IonItem>
 
-                            <IonItem color={"primary"} style={{ marginBottom: "5px" }}>
+                            <IonItem color={"primary"} className={"input"}>
                                 <IonLabel>Password</IonLabel>
                                 <IonInput
                                     type={"password"}
                                     placeholder={"Enter password..."}
                                     value={password}
+                                    onIonChange={e => setPassword(e.detail.value!)}
                                 />
                             </IonItem>
 
-                            <IonItem color={"primary"}>
+                            <IonItem color={"primary"} className={"input"}>
                                 <IonLabel>Remember Me?</IonLabel>
                                 <IonCheckbox
                                     slot={"end"}
                                     checked={rememberMe}
                                     color={"success"}
+                                    onIonChange={e => setRememberMe(e.detail.checked)}
                                 />
                             </IonItem>
                         </IonItemGroup>
+
+                        <IonButton color={"light"} expand={"full"}>
+                            <IonLabel>Login</IonLabel>
+                            <IonIcon icon={checkmark} slot="end" />
+                        </IonButton>
                     </IonCardContent>
                 </IonCard>
+
+                <IonToast
+                    isOpen={showSuccessToast}
+                    onDidDismiss={() => setShowSuccessToast(false)}
+                    message="Your settings have been saved."
+                    color={"success"}
+                    // duration={2000}
+                />
             </IonContent>
         </IonPage>
     );
