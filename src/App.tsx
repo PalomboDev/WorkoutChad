@@ -123,7 +123,7 @@ export default function App(): JSX.Element {
         });
     }, []);
 
-    if (!user || history.location.pathname.includes("/auth")) {
+    if (!user || (history && history.location && history.location.pathname.includes("/auth"))) {
         return (
             <IonApp>
                 <IonReactRouter>
@@ -135,7 +135,7 @@ export default function App(): JSX.Element {
                             <Route exact path="/auth/register">
                                 <Register/>
                             </Route>
-                            <Route>
+                            <Route exact path="/">
                                 <Redirect to="/auth/login"/>
                             </Route>
                         </IonRouterOutlet>

@@ -33,6 +33,7 @@ export default function Profile({  }): JSX.Element {
                     supabase.auth.signOut();
                     window.localStorage.removeItem("workoutchad.user");
                     history.push("/auth/login");
+                    history.goForward();
                 }}>Sign Out</IonButton>
             </IonContent>
         </IonPage>

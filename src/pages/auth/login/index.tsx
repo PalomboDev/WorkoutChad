@@ -52,7 +52,8 @@ export default function Login(): JSX.Element {
             if (data.session && data.user) {
                 setToastMessage("You have logged in!");
                 setShowSuccessToast(true);
-                history.push("/");
+                history.push("/home");
+                history.goForward();
             }
         });
     }
