@@ -1,7 +1,20 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './index.css';
+import "./index.css";
+
+import {
+    IonContent,
+    IonHeader,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    IonButton
+} from "@ionic/react";
+
+import { supabase } from "../../utils/supabaseClient";
+import { useHistory } from "react-router";
 
 export default function Profile({  }): JSX.Element {
+    const history = useHistory();
+
     return (
         <IonPage>
             <IonHeader>
@@ -15,6 +28,12 @@ export default function Profile({  }): JSX.Element {
                         <IonTitle size="large">Profile</IonTitle>
                     </IonToolbar>
                 </IonHeader>
+
+                <IonButton onClick={() => {
+                    supabase.auth.signOut();
+                    window.localStorage.removeItem("workoutchad.user");
+                    history.push("/auth/login");
+                }}>Sign Out</IonButton>
             </IonContent>
         </IonPage>
     );
