@@ -122,6 +122,8 @@ export default function App(): JSX.Element {
                 sessionSet(supabase.auth.session());
             });
 
+        sessionSet(supabase.auth.session());
+
         supabase.auth.onAuthStateChange((_event, session) => {
             sessionSet(session);
         });
