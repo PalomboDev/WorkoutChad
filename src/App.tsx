@@ -137,6 +137,8 @@ export default function App(): JSX.Element {
     );
   }
 
+
+
   return (
     <UserContext.Provider value={{ user }}>
       <IonApp>
