@@ -118,6 +118,10 @@ export default function Login(): JSX.Element {
                             <IonLabel>Login</IonLabel>
                             <IonIcon icon={checkmark} slot="end" />
                         </IonButton>
+
+                        <IonButton color={"light"} expand={"full"} onClick={() => history.push("/auth/register")}>
+                            <IonLabel>Need an account?</IonLabel>
+                        </IonButton>
                     </IonCardContent>
                 </IonCard>
 
