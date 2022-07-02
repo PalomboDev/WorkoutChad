@@ -34,7 +34,7 @@ export default function Login(): JSX.Element {
 
     const [rememberMe, setRememberMe] = useState<boolean>(false);
 
-    const [showSuccessToast, setShowSuccessToast] = useState<boolean>(true);
+    const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false);
     const [showErrorToast, setShowErrorToast] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string>("");
 
