@@ -61,9 +61,8 @@ export default function App(): JSX.Element {
       let fetchUserData: boolean = true;
 
       if (session && session.user) {
-        const localUserString: string | null = window.localStorage.getItem(
-          'workoutchad.user'
-        );
+        const localUserString: string | null =
+          window.localStorage.getItem('workoutchad.user');
 
         if (localUserString !== null) {
           user = JSON.parse(localUserString);
@@ -102,10 +101,7 @@ export default function App(): JSX.Element {
         }
 
         if (user) {
-          window.localStorage.setItem(
-            'workoutchad.user',
-            JSON.stringify(user)
-          );
+          window.localStorage.setItem('workoutchad.user', JSON.stringify(user));
 
           setUser(user);
           setSession(session);
@@ -116,20 +112,20 @@ export default function App(): JSX.Element {
     setUserAndSession();
   }
 
-  useEffect(() => {
-    supabase.auth
-      .signIn({
-        email: 'colin.palombo@yahoo.com',
-        password: 'password1',
-      })
-      .then((result) => {
-        sessionSet(supabase.auth.session());
-      });
+  // useEffect(() => {
+  //   supabase.auth
+  //     .signIn({
+  //       email: 'colin.palombo@yahoo.com',
+  //       password: 'password1',
+  //     })
+  //     .then((result) => {
+  //       sessionSet(supabase.auth.session());
+  //     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      sessionSet(session);
-    });
-  }, []);
+  //   supabase.auth.onAuthStateChange((_event, session) => {
+  //     sessionSet(session);
+  //   });
+  // }, []);
 
   if (!user) {
     return (

@@ -2,8 +2,6 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -12,13 +10,28 @@ import {
   IonIcon,
   IonLabel,
   IonButton,
-  IonList,
   IonInput,
+  IonItemGroup,
+  IonCheckbox,
 } from '@ionic/react';
 import { checkmark, personAdd } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import './index.css';
 
 export default function Register(): JSX.Element {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [showSuccessToast, setShowSuccessToast] = useState<boolean>(true);
+  const [showErrorToast, setShowErrorToast] = useState<boolean>(false);
+
+  let history = useHistory();
+
+  function handleClick() {
+    history.push('/auth/login');
+  }
+
   return (
     <IonPage>
       <IonHeader className="header-content"></IonHeader>
@@ -37,46 +50,52 @@ export default function Register(): JSX.Element {
         <IonCard className="register-card" color={'white'}>
           <IonItem color={'white'}>
             <IonIcon icon={personAdd} slot="start" />
-            <IonLabel>Register User</IonLabel>
+            <IonLabel color={'light'}>Register User</IonLabel>
           </IonItem>
           <IonCardContent>
-            <IonList>
-              <IonItem>
-                <IonLabel position="stacked">Name</IonLabel>
-                <IonInput></IonInput>
+            <IonItemGroup>
+              <IonItem color={'primary'} className={'input'}>
+                <IonLabel>Email</IonLabel>
+                <IonInput
+                  type={'email'}
+                  placeholder={'Enter email...'}
+                  value={email}
+                  onIonChange={(e) => setEmail(e.detail.value!)}
+                />
               </IonItem>
-              <IonItem>
-                <IonLabel position="stacked">Username</IonLabel>
-                <IonInput></IonInput>
+
+              <IonItem color={'primary'} className={'input'}>
+                <IonLabel>Email</IonLabel>
+                <IonInput
+                  type={'email'}
+                  placeholder={'Enter email...'}
+                  value={email}
+                  onIonChange={(e) => setEmail(e.detail.value!)}
+                />
               </IonItem>
-              <IonItem>
-                <IonLabel position="stacked">Email</IonLabel>
-                <IonInput></IonInput>
+
+              <IonItem color={'primary'} className={'input'}>
+                <IonLabel>Password</IonLabel>
+                <IonInput
+                  type={'password'}
+                  placeholder={'Enter password...'}
+                  value={password}
+                  onIonChange={(e) => setPassword(e.detail.value!)}
+                />
               </IonItem>
-              <IonItem>
-                <IonLabel position="stacked">Password</IonLabel>
-                <IonInput></IonInput>
-              </IonItem>
-              <IonItem>
-                <IonLabel position="stacked">Confirm Password</IonLabel>
-                <IonInput></IonInput>
-              </IonItem>
-            </IonList>
+            </IonItemGroup>
+
+            <IonButton color={'light'} expand={'full'}>
+              <IonLabel>Register</IonLabel>
+              <IonIcon icon={checkmark} slot="end" />
+            </IonButton>
+
+            <IonButton color={'light'} expand={'full'}>
+              <IonLabel>Already have an account?</IonLabel>
+              onClick={history.push('/login')}
+            </IonButton>
           </IonCardContent>
         </IonCard>
-
-        <div className="button-content">
-          <IonButton
-            color={'primary'}
-            expand="block"
-            className="register-button">
-            <IonLabel>Register</IonLabel>
-            <IonIcon icon={checkmark} slot="end" />
-          </IonButton>
-          <IonButton color={'warning'} expand="block" className="login-button">
-            <IonLabel>Already have an account?</IonLabel>
-          </IonButton>
-        </div>
       </IonContent>
     </IonPage>
   );
