@@ -52,7 +52,7 @@ export default function App(): JSX.Element {
 
   function sessionSet(session: Session | null) {
     if (!session) {
-      window.localStorage.removeItem('dynamichomecare.user');
+      window.localStorage.removeItem('workoutchad.user');
       return;
     }
 
@@ -62,7 +62,7 @@ export default function App(): JSX.Element {
 
       if (session && session.user) {
         const localUserString: string | null = window.localStorage.getItem(
-          'dynamichomecare.user'
+          'workoutchad.user'
         );
 
         if (localUserString !== null) {
@@ -70,7 +70,7 @@ export default function App(): JSX.Element {
 
           if (user) {
             if (session.user.id !== user.id) {
-              window.localStorage.removeItem('dynamichomecare.user');
+              window.localStorage.removeItem('workoutchad.user');
               supabase.auth.signOut();
               return;
             }
@@ -96,8 +96,6 @@ export default function App(): JSX.Element {
             return;
           }
 
-          console.log(userData);
-
           if (userData && userData[0]) {
             user = await (userData[0] as User);
           }
@@ -105,7 +103,7 @@ export default function App(): JSX.Element {
 
         if (user) {
           window.localStorage.setItem(
-            'dynamichomecare.user',
+            'workoutchad.user',
             JSON.stringify(user)
           );
 
@@ -137,7 +135,7 @@ export default function App(): JSX.Element {
     return (
       <IonApp>
         <IonReactRouter>
-          <Login />
+          <Register />
         </IonReactRouter>
       </IonApp>
     );
