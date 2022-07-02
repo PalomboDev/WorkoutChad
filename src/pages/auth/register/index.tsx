@@ -90,9 +90,8 @@ export default function Register(): JSX.Element {
               <IonIcon icon={checkmark} slot="end" />
             </IonButton>
 
-            <IonButton color={'light'} expand={'full'}>
+            <IonButton color={'light'} expand={'full'} onClick={() => history.push('/auth/login')}>
               <IonLabel>Already have an account?</IonLabel>
-              onClick={history.push('/login')}
             </IonButton>
           </IonCardContent>
         </IonCard>
