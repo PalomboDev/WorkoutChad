@@ -16,17 +16,12 @@ import {
   IonInput,
 } from '@ionic/react';
 import { checkmark, personAdd } from 'ionicons/icons';
-
 import './index.css';
 
-export default function Register({}): JSX.Element {
+export default function Register(): JSX.Element {
   return (
     <IonPage>
-      <IonHeader className="header-content">
-        <IonToolbar>
-          <IonTitle></IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <IonHeader className="header-content"></IonHeader>
 
       <IonContent className="register-content">
         <IonCard className="welcome-card" color={'white'}>
