@@ -34,13 +34,12 @@ export default function Register(): JSX.Element {
 
   return (
     <IonPage>
-      <IonHeader className="header-content"></IonHeader>
-
       <IonContent className="register-content">
         <IonCard className="welcome-card" color={'white'}>
           <IonCardHeader>
             <IonCardTitle>Welcome to Workout Chad</IonCardTitle>
           </IonCardHeader>
+
           <IonCardContent>
             We will be your personal trainer, keeping you motivated when working
             out.
@@ -48,49 +47,57 @@ export default function Register(): JSX.Element {
         </IonCard>
 
         <IonCard className="register-card" color={'white'}>
-          <IonItem color={'white'}>
-            <IonIcon icon={personAdd} slot="start" />
-            <IonLabel color={'light'}>Register User</IonLabel>
-          </IonItem>
           <IonCardContent>
             <IonItemGroup>
               <IonItem color={'primary'} className={'input'}>
                 <IonLabel>Email</IonLabel>
                 <IonInput
                   type={'email'}
-                  placeholder={'Enter email...'}
+                  placeholder={'Enter email'}
                   value={email}
                   onIonChange={(e) => setEmail(e.detail.value!)}
                 />
               </IonItem>
 
-              <IonItem color={'primary'} className={'input'}>
-                <IonLabel>Email</IonLabel>
+              <IonItem
+                style={{ marginTop: '10px' }}
+                color={'primary'}
+                className={'input'}>
+                <IonLabel>Password</IonLabel>
                 <IonInput
                   type={'email'}
-                  placeholder={'Enter email...'}
+                  placeholder={'Enter password'}
                   value={email}
                   onIonChange={(e) => setEmail(e.detail.value!)}
                 />
               </IonItem>
 
-              <IonItem color={'primary'} className={'input'}>
+              <IonItem
+                style={{ marginTop: '10px' }}
+                color={'primary'}
+                className={'input'}>
                 <IonLabel>Password</IonLabel>
                 <IonInput
                   type={'password'}
-                  placeholder={'Enter password...'}
+                  placeholder={'Confirm password'}
                   value={password}
                   onIonChange={(e) => setPassword(e.detail.value!)}
                 />
               </IonItem>
             </IonItemGroup>
 
-            <IonButton color={'light'} expand={'full'}>
+            <IonButton
+              style={{ marginTop: '10px' }}
+              color={'light'}
+              expand={'full'}>
               <IonLabel>Register</IonLabel>
               <IonIcon icon={checkmark} slot="end" />
             </IonButton>
 
-            <IonButton color={'light'} expand={'full'} onClick={() => history.push('/auth/login')}>
+            <IonButton
+              color={'light'}
+              expand={'full'}
+              onClick={() => history.push('/auth/login')}>
               <IonLabel>Already have an account?</IonLabel>
             </IonButton>
           </IonCardContent>
