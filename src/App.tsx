@@ -135,6 +135,9 @@ export default function App(): JSX.Element {
                             <Route exact path="/auth/register">
                                 <Register/>
                             </Route>
+                            <Route>
+                                <Redirect to="/auth/login"/>
+                            </Route>
                         </IonRouterOutlet>
                         <IonTabBar slot="bottom">
                             <IonTabButton tab="register" href="/auth/register">
