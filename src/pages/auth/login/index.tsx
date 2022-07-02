@@ -1,6 +1,6 @@
 import "./index.css";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 import {
     IonContent,
@@ -24,8 +24,11 @@ import {
 } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
 import { supabase } from "../../../utils/supabaseClient";
+import { useHistory } from "react-router";
 
 export default function Login(): JSX.Element {
+    const history = useHistory();
+
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -33,9 +36,25 @@ export default function Login(): JSX.Element {
 
     const [showSuccessToast, setShowSuccessToast] = useState<boolean>(true);
     const [showErrorToast, setShowErrorToast] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string>("");
 
     function handleLogin(): void {
+        supabase.auth.signIn({
+            email,
+            password
+        }).then(data => {
+            if (data.error !== null) {
+                setToastMessage(data.error.message);
+                setShowErrorToast(true);
+                return;
+            }
 
+            if (data.session && data.user) {
+                setToastMessage("You have logged in!");
+                setShowSuccessToast(true);
+                history.push("/");
+            }
+        });
     }
 
     return (
@@ -92,7 +111,10 @@ export default function Login(): JSX.Element {
                             </IonItem>
                         </IonItemGroup>
 
-                        <IonButton color={"light"} expand={"full"}>
+                        <IonButton color={"light"} expand={"full"} onClick={e => {
+                            e.preventDefault();
+                            handleLogin();
+                        }}>
                             <IonLabel>Login</IonLabel>
                             <IonIcon icon={checkmark} slot="end" />
                         </IonButton>
@@ -102,9 +124,17 @@ export default function Login(): JSX.Element {
                 <IonToast
                     isOpen={showSuccessToast}
                     onDidDismiss={() => setShowSuccessToast(false)}
-                    message="Your settings have been saved."
+                    message={toastMessage}
                     color={"success"}
-                    // duration={2000}
+                    duration={2000}
+                />
+
+                <IonToast
+                    isOpen={showErrorToast}
+                    onDidDismiss={() => setShowErrorToast(false)}
+                    message={toastMessage}
+                    color={"danger"}
+                    duration={5000}
                 />
             </IonContent>
         </IonPage>
