@@ -53,7 +53,6 @@ export default function App(): JSX.Element {
   function sessionSet(session: Session | null) {
     if (!session) {
       window.localStorage.removeItem('dynamichomecare.user');
-      // TODO: Go to Login
       return;
     }
 
@@ -72,7 +71,7 @@ export default function App(): JSX.Element {
           if (user) {
             if (session.user.id !== user.id) {
               window.localStorage.removeItem('dynamichomecare.user');
-              // supabase.auth.signOut(); TODO
+              supabase.auth.signOut();
               return;
             }
 
