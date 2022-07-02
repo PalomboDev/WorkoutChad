@@ -11,7 +11,7 @@ import {
     setupIonicReact,
 } from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
-import {home, barbell, person} from 'ionicons/icons';
+import {home, barbell, person, logIn, personAdd} from 'ionicons/icons';
 import Home from './pages/home';
 import Workouts from './pages/workouts';
 import Profile from './pages/profile';
@@ -43,10 +43,13 @@ import {PostgrestResponse, Session} from '@supabase/supabase-js';
 import {supabase} from './utils/supabaseClient';
 import {useEffect, useState} from 'react';
 import {UserContext} from './utils/useUserContext';
+import {useHistory} from "react-router";
 
 setupIonicReact();
 
 export default function App(): JSX.Element {
+    const history = useHistory();
+
     const [user, setUser] = useState<User | null>(null);
     const [session, setSession] = useState<Session | null>(null);
 
@@ -113,15 +116,6 @@ export default function App(): JSX.Element {
     }
 
     useEffect(() => {
-        supabase.auth
-            .signIn({
-                email: 'colin.palombo@yahoo.com',
-                password: 'password1',
-            })
-            .then((result) => {
-                sessionSet(supabase.auth.session());
-            });
-
         sessionSet(supabase.auth.session());
 
         supabase.auth.onAuthStateChange((_event, session) => {
@@ -129,11 +123,30 @@ export default function App(): JSX.Element {
         });
     }, []);
 
-    if (!user) {
+    if (!user || history.location.pathname.includes("/auth")) {
         return (
             <IonApp>
                 <IonReactRouter>
-                    <Register/>
+                    <IonTabs>
+                        <IonRouterOutlet>
+                            <Route exact path="/auth/login">
+                                <Login/>
+                            </Route>
+                            <Route exact path="/auth/register">
+                                <Register/>
+                            </Route>
+                        </IonRouterOutlet>
+                        <IonTabBar slot="bottom">
+                            <IonTabButton tab="register" href="/auth/register">
+                                <IonIcon icon={personAdd}/>
+                                <IonLabel>Register</IonLabel>
+                            </IonTabButton>
+                            <IonTabButton tab="login" href="/auth/login">
+                                <IonIcon icon={logIn}/>
+                                <IonLabel>Login</IonLabel>
+                            </IonTabButton>
+                        </IonTabBar>
+                    </IonTabs>
                 </IonReactRouter>
             </IonApp>
         );
@@ -156,14 +169,6 @@ export default function App(): JSX.Element {
                             </Route>
                             <Route exact path="/">
                                 <Redirect to="/home"/>
-                            </Route>
-
-                            {/*Auth*/}
-                            <Route exact path="/auth/login">
-                                <Login/>
-                            </Route>
-                            <Route exact path="/auth/register">
-                                <Register/>
                             </Route>
                         </IonRouterOutlet>
                         <IonTabBar slot="bottom">
