@@ -53,7 +53,6 @@ export default function App(): JSX.Element {
   function sessionSet(session: Session | null) {
     if (!session) {
       window.localStorage.removeItem('dynamichomecare.user');
-      // TODO: Go to Login
       return;
     }
 
@@ -119,20 +118,20 @@ export default function App(): JSX.Element {
     setUserAndSession();
   }
 
-  useEffect(() => {
-    supabase.auth
-      .signIn({
-        email: 'colin.palombo@yahoo.com',
-        password: 'password1',
-      })
-      .then((result) => {
-        sessionSet(supabase.auth.session());
-      });
+  // useEffect(() => {
+  //   supabase.auth
+  //     .signIn({
+  //       email: 'colin.palombo@yahoo.com',
+  //       password: 'password1',
+  //     })
+  //     .then((result) => {
+  //       sessionSet(supabase.auth.session());
+  //     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      sessionSet(session);
-    });
-  }, []);
+  //   supabase.auth.onAuthStateChange((_event, session) => {
+  //     sessionSet(session);
+  //   });
+  // }, []);
 
   if (!user) {
     return (
